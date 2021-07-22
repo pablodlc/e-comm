@@ -34,7 +34,7 @@ Product.init(
       validate: {
         isNumeric: true
       }
-    }
+    },
   },
   {
     sequelize,
