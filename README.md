@@ -1,48 +1,131 @@
 # e-commerce back end
 
 ## Description
-To view the video demonstration of this application, click this link: [emp-track](https://github.com/pablodlc/employee-tracker/blob/main/assets/emp-track.gif).
+
+To view the video demonstration of this application, click this link: [**e-comm**](https://www.youtube.com/watch?v=Tlsy9G_tXI4).
+
+**e-comm** is a back end for an e-commerce website. Using MySql2, Sequelize, and Express.js, **e-comm** is an easy to use database in an API client like Insomnia, as demonstrated in the gif below.
 
 Or watch the gif below!  
-![emp-track](./assets/emp-track.gif)
+![e-comm](./assets/e-comm.gif)
 
-This application was written to meet or exceed the guidelines laid out in the provided [User Story](#User%20Story) and [Acceptance Criteria](#Acceptance%20Criteria).
+This application was written following the guidelines laid out in the provided [User Story](#User%20Story) and [Acceptance Criteria](#Acceptance%20Criteria).
 
 ### Table of Contents
-- [User Story](#User%20Story)
-- [Acceptance Criteria](#Acceptance%20Criteria)
-- [Installation](#Installation)
-- [Future Developments](#Future%20Developments)
-- [Questions?](#Questions)
+
+-   [User Story](#user%20story)
+-   [Acceptance Criteria](#acceptance%20criteria)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Future Developments](#future%20developments)
+-   [Questions?](#questions)
 
 #### User Story
-> AS A...
+
+> AS A manager at an internet retail company  
+> I WANT a back end for my e-commerce website that uses the latest technologies  
+> SO THAT my company can compete with other e-commerce companies
 
 #### Acceptance Criteria
->GIVEN a command-line application that accepts user input  
-WHEN I start the application  
-THEN I am presented with the following options: view all departments, view all roles, view all employees, add a department,   add a role, add an employee, and update an employee role  
-WHEN I choose to view all departments  
-THEN I am presented with a formatted table showing department names and department ids  
-WHEN I choose to view all roles  
-THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role  
-WHEN I choose to view all employees  
-THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job   titles, departments, salaries, and managers that the employees report to  
-WHEN I choose to add a department  
-THEN I am prompted to enter the name of the department and that department is added to the database  
-WHEN I choose to add a role  
-THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database  
-WHEN I choose to add an employee  
-THEN I am prompted to enter the employee’s first name, last name, role, and manager and that employee is added to the database  
-WHEN I choose to update an employee role  
-THEN I am prompted to select an employee to update and their new role and this information is updated in the database   
+
+> GIVEN a functional Express.js API  
+> WHEN I add my database name, MySQL username, and MySQL password to an environment variable file  
+> THEN I am able to connect to a database using Sequelize  
+> WHEN I enter schema and seed commands  
+> THEN a development database is created and is seeded with test data  
+> WHEN I enter the command to invoke the application  
+> THEN my server is started and the Sequelize models are synced to the MySQL database  
+> WHEN I open API GET routes in Insomnia Core for categories, products, or tags  
+> THEN the data for each of these routes is displayed in a formatted JSON  
+> WHEN I test API POST, PUT, and DELETE routes in Insomnia Core  
+> THEN I am able to successfully create, update, and delete data in my database
+
+## Installation
+
+As listed in `package.json`, this application has the following dependencies:  
+![dependencies](./assets/dependencies.jpg)  
+At the root level of the application, open the terminal and run `npm i`.  
+To seed the database in MySql:
+
+-   After the dependencies are installed, open MySql with the command `mysql -u root -p`, where `root` is your user name, followed by a prompt for your MySql password.
+-   In the MySql shell, enter the command `source db/schema.sql;`
+-   After the database is seeded, enter the command `exit`
+
+To seed the database from the command line, enter the following command in the terminal: `npm run seed`
+
+## Usage
+
+To start the application, open the terminal at the root of the application with and enter the command `npm start`. If successful, the last line of the response in the terminal will be `App listening on port 3001!`. The application can then be opened using an API client or in the browser at [localhost:3001](localhost:3001). The gif in the [**Description**](#description) section demonstrates the application being used on [Insomnia](https://insomnia.rest/).  
+**e-comm** uses basic CRUD routes. The following URLs can fetch their namesake's data from the database.
+
+-   [localhost:3001/api/categories](localhost:3001/api/categories)
+-   [localhost:3001/api/tags](localhost:3001/api/tags)
+-   [localhost:3001/api/products](localhost:3001/api/products)
+
+To search for an item by id, use the following URLs, using the correct `id` as the number at the end.
+
+-   [localhost:3001/api/categories/1](localhost:3001/api/categories/1)
+-   [localhost:3001/api/tags/2](localhost:3001/api/tags/2)
+-   [localhost:3001/api/products/3](localhost:3001/api/products/3)
+
+To create a new item in the database, use the following URLs to `POST` into the corresponding data tables.
+
+-   [localhost:3001/api/categories](localhost:3001/api/categories)
+-   [localhost:3001/api/tags](localhost:3001/api/tags)
+-   [localhost:3001/api/products](localhost:3001/api/products)
+
+Then click on the `Body` dropdown menu below the address bar and select `JSON`. Ensure the URL is set to `categories`, `tags`, or `products` accordingly. Then enter the following JSON in the body and hit send:
+
+```js
+{ "category_name": "your category name here" }
+```
+
+```js
+{ "tag_name": "your tag name here" }
+```
+
+```js
+{
+  "product_name": "your category name here",
+//   `24.99` is a variable below. Enter the appropriate price here
+  "price": 24.99,
+//   `10` is a variable below. Enter the appropriate number of items in stock here.
+  "stock": 10,
+//   `tagIds` is an array associating ids to the product being created. Based on our `tag-seeds.js` file, the numbers in `[1, 2, 3]` below would associate the tags `"rock music"`, `"pop music"`, and `"blue"` with these new `tagsId` array items. The reason those three tags are associated to the new product is because 1, 2, and 3 are their ids, respectively.
+  "tagsId": [1, 2, 3]
+}
+```
+
+Below is an image from Insomnia demonstrating how to `POST` (create) a new category in **e-com**. Just change the .JSON content accordingly.  
+![post-cat_name](./assets/POST-catName.jpg)
+
+To update an item in **e-comm**, choose the `PUT` route in Insomnia, using the following addresses as examples where the numbers represent ids.
+
+-   [localhost:3001/api/categories/1](localhost:3001/api/categories/1)
+-   [localhost:3001/api/tags/2](localhost:3001/api/tags/2)
+-   [localhost:3001/api/products/3](localhost:3001/api/products/3)
+
+Below is an image from Insomnia demonstrating how to `PUT` (update) the `category` with the id of 1.  
+![update by id](./assets/PUT-cat-by-id.jpg)
+
+To delete from **e-comm**, choose the `DELETE` route in Insomnia, using the following addresses as examples where the numbers represent ids.
+
+-   [localhost:3001/api/categories/1](localhost:3001/api/categories/1)
+-   [localhost:3001/api/tags/2](localhost:3001/api/tags/2)
+-   [localhost:3001/api/products/3](localhost:3001/api/products/3)
+
+Below is an image from Insomnia demonstrating how to delete the `tag` with the id of 2.  
+![delete by id](./assets/DELETE-tag-by-id.jpg)
 
 ## Future Developments
-Clearly this is an incomplete work. Future developments would include fixing the broken `update-employees` function and putting in the joins so that the tables would be easier to read.
+
+I was almost done. I can't delete `Products` yet. That would be the first thing to address when revisiting this application. But as of this submission, I still have some catching up to do in class, so I gotta let it go!
 
 ## Questions?
-Please feel free to contact me with any questions or comments, or visit my GitHub to see more of my work.  
-[Contact me by email](mailto:pablodlc@gmail.com)    
-[GitHub User pablodlc](https://github.com/pablodlc)
 
-__emp-track__ made with ❤️ by pablodlc
+Please feel free to contact me with any questions or comments, or visit my GitHub to see more of my work.  
+[Contact me by email](mailto:pablodlc@gmail.com)  
+[GitHub User pablodlc](https://github.com/pablodlc)  
+[e-comm GitHub Repo](https://github.com/pablodlc/e-comm)
+
+**e-comm** made with ❤️ by pablodlc

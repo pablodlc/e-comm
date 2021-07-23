@@ -21,6 +21,7 @@ Product.init(
       allowNull: false
     },
     price: {
+      // the `.DECIMAL()` method takes in 10 as the total numbers in length of the number in price. It takes in 2 as the resolution of decimal places. This means the max price a product could have in this model is 99999999.99
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       validate: {
